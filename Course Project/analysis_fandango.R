@@ -28,15 +28,17 @@ ggplot(long_melt, aes(x=website, y=rating, fill=website)) + geom_boxplot(alpha =
 
 ####
 
-library(rCharts)
-
 long_melt[,1:2] = apply(long_melt[,1:2], 2, function(x) iconv(x,to="utf-8"))
+
+compare = "IMDB_norm"
+
+fan_comp = subset(long_melt, website == "Fandango_Stars" | website == compare)
 
 d1 <- dPlot(
         x = "rating",
         y = "film",
         groups = "website",
-        data = long_melt,
+        data = fan_comp,
         type = "bubble"
         , bounds = list( x = 250, y = 50, width = 700, height = 2400)
 )
@@ -52,7 +54,6 @@ d1$legend(
 )
 
 d1$set(height = 2500, width = 1000)
-
 
 d1
 
