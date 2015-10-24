@@ -1,24 +1,20 @@
 library(shiny)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
+require(rCharts)
+shinyUI(pageWithSidebar(
+        headerPanel("rCharts: Interactive Charts from R using polychart.js"),
         
-        # Application title
-        titlePanel("Hello Shiny from Aaron's Desketop!"),
-        
-        # Sidebar with a slider input for the number of bins
-        sidebarLayout(
-                sidebarPanel(
-                        sliderInput("bins",
-                                    "Number of bins:",
-                                    min = 5,
-                                    max = 50,
-                                    value = 30)
-                ),
-                
-                # Show a plot of the generated distribution
-                mainPanel(
-                        plotOutput("distPlot")
-                )
+        sidebarPanel(
+                selectInput(inputId = "x",
+                            label = "Choose X",
+                            choices = c('SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth'),
+                            selected = "SepalLength"),
+                selectInput(inputId = "y",
+                            label = "Choose Y",
+                            choices = c('SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth'),
+                            selected = "SepalWidth")
+        ),
+        mainPanel(
+                showOutput("myChart", "polycharts")
         )
 ))
