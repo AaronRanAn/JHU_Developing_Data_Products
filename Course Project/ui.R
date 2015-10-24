@@ -18,6 +18,13 @@ shinyUI(
                                                 choices = c("Fandango_Stars", "IMDB_norm","Metacritic_user_nom","RT_user_norm"),
                                                 selected = "IMDB_norm"
                                     ),
+                                    uiOutput("movieSelector"),
+                                    actionButton(inputId = "clearAll", 
+                                                 label = "Clear selection", 
+                                                 icon = icon("square-o")),
+                                    actionButton(inputId = "selectAll", 
+                                                 label = "Select all", 
+                                                 icon = icon("check-square-o")),
                                     width = 3
                             ),
                             mainPanel(

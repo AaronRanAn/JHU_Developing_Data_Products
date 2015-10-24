@@ -6,11 +6,15 @@ library(reshape)
 
 long_star = fan_score[,c(1, 7, 10, 12, 13)]
 
+long_star_2 = fan_score[,c(1, 19, 20, 21)]
+
 as.character(long_star$FILM)
 
 as.character(long_melt$film)
 
 long_melt = melt(long_star, id.vars= "FILM")
+
+long_melt_2 = melt(long_star_2, id.vars= "FILM")
 
 names(long_melt) = c("film", "website", "rating")
 

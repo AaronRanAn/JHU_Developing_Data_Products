@@ -7,6 +7,8 @@ library(shiny)
 require(rCharts)
 
  options(RCHART_WIDTH = 1000)
+ 
+film <- sort(unique(long_melt$film))
 
 shinyServer(
         
@@ -37,9 +39,31 @@ shinyServer(
                                 horizontalAlign = "left"
                         )
                         
-                        d1$set(height = 2500, width = 950)
+                        d1$set(height = 3000, width = 1000)
                         
                         return(d1)
+                }) # end of chart 1
+                
+                # Initialize reactive values
+                
+                values <- reactiveValues()
+                values$film <- film
+                
+                output$movieSelector <- renderUI({
+                        checkboxGroupInput('film', 'Select Movies to Compare Ratings:', 
+                                           film, selected = values$film)
+                }) # end of box
+                
+                # Add observer on select-all button
+                observe({
+                        if(input$selectAll == 0) return()
+                        values$film <- film
+                })
+                
+                # Add observer on clear-all button
+                observe({
+                        if(input$clearAll == 0) return()
+                        values$film <- c() # empty list
                 })
                 
                 
