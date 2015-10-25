@@ -8,13 +8,13 @@ options(RCHART_LIB = 'dimple')
 
 shinyUI(
         
-        navbarPage("Does Fandango Overate Movies?",
+        navbarPage("Online Movie Rating Explorer",
                    
-                   tabPanel("Lollipop Chart",  # Start of Tab 1
+                   tabPanel("Movies & Rating",  # Start of Tab 1
                             sidebarPanel(
-                                    h3('Sidebar text'),
+                                    h3('Explore Ratings'),
                                     selectInput(inputId = "website",
-                                                label = "select the website to compare",
+                                                label = "Select to compare to Fandango",
                                                 choices = c("Fandango_Stars", "IMDB_norm","Metacritic_user_nom","RT_user_norm"),
                                                 selected = "IMDB_norm"
                                     ),
@@ -32,29 +32,27 @@ shinyUI(
                             )
                    ), # End of Tab 1
                    
-                   tabPanel("ggplot2", # Start of Tab 2
+                   tabPanel("Rating Error & Rating Counts", # Start of Tab 2
                             sidebarPanel(
-                                    h3('sidebar on page 2')
+                                    h4("Which Ratings To Trust?"),
+                                    sliderInput("rating_error", 
+                                                "Select Rating Error Range:", 
+                                                min = -2.0,
+                                                max = 2.0,
+                                                value = c(-2.0, 2.0),
+                                                step = 0.1
+                                                ),
+                                    h6("* Rating Error = Rating - Avg Rating"),
+                                    width=3
                             ),
                             
                             mainPanel(
-                                    h3('main panel on tab2 content')
+                                    showOutput("chart12", "dimple")
                             )
                    ), # End of Tab 2
                    
-                   tabPanel("Movie Explore",
-                            sidebarPanel(
-                                    h3 ("sidebar on tab 3")
-                            ),
-                            
-                            mainPanel(
-                                    
-                            )
-                   ), # End of Tab 3
-                   
-                   tabPanel("About", # Start of last tab
-                            
-                            mainPanel(h2("This is where you introduce project and project"))
+                   tabPanel("How To Use This App?", # Start of last tab
+                            includeMarkdown("about.md")
                             
                    ) # End of last tab
         )

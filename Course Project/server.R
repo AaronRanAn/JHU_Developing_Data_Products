@@ -44,6 +44,36 @@ shinyServer(
                         return(d1)
                 }) # end of chart 1
                 
+                output$chart12 <- renderChart2({
+                        
+                        range = input$rating_error
+                        
+                        rating_sub = subset(movie_rating, rating_error >= range[1] & rating_error <= range[2])
+                        
+                        d2 <- dPlot(
+                                x = "review_count",
+                                y = "rating_error",
+                                groups = c("film", "website"),
+                                data = rating_sub,
+                                type = "bubble"
+                        )
+                        
+                        d2$xAxis( type = "addMeasureAxis" )
+                        d2$yAxis( type = "addMeasureAxis")
+                        d2$legend(
+                                x = 200,
+                                y = 10,
+                                width = 300,
+                                height = 200,
+                                horizontalAlign = "left"
+                        )
+                        
+                        d2$set(height = 800, width = 800)
+                        
+                        return(d2)
+                        
+                }) # end of chart 2
+                
                 # Initialize reactive values
                 
                 values <- reactiveValues()

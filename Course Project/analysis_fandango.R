@@ -20,11 +20,12 @@ as.character(long_melt$film)
 
 long_melt = melt(long_star, id.vars= "FILM")
 
+# recode column names level, prepare for merge
+
 names(long_melt) = c("film", "website", "rating")
 
-ggplot(long_melt, aes(x=rating, fill=website)) + geom_density(alpha=.3)
+names(long_melt) = c("film", "website", "rating")
 
-ggplot(long_melt, aes(x=website, y=rating, fill=website)) + geom_boxplot(alpha = .3)
 
 ####
 

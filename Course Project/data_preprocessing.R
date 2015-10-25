@@ -14,13 +14,66 @@ as.character(long_melt$film)
 
 long_melt = melt(long_star, id.vars= "FILM")
 
+long_melt[,1:2] = apply(long_melt[,1:2], 2, function(x) iconv(x,to="utf-8"))
+
+save(long_melt, file = "long_melt.RData")
+
+## prepare long_melt_2 for merge
+
 long_melt_2 = melt(long_star_2, id.vars= "FILM")
 
 names(long_melt) = c("film", "website", "rating")
 
-long_melt[,1:2] = apply(long_melt[,1:2], 2, function(x) iconv(x,to="utf-8"))
+names(long_melt_2) = c("film", "website", "review_count")
 
-save(long_melt, file = "long_melt.RData")
+library(plyr)
+
+long_melt_2$website <- revalue(long_melt_2$website, c("Metacritic_user_vote_count"="Metacritic_user_nom", 
+                                                      "IMDB_user_vote_count"="IMDB_norm", "Fandango_votes" = "Fandango_Stars"))
+
+movie_rating <-  merge(long_melt,long_melt_2,by=c("film","website"))
+
+# Calculate rating Error
+
+movie_rating_avg <- aggregate(movie_rating, by = list(movie_rating$film), FUN = mean, na.rm = T)
+
+movie_rating_avg <- movie_rating_avg[,c(1,4)]
+
+names(movie_rating_avg) <- c("film","avg_rating")
+
+movie_rating <-  merge(movie_rating,movie_rating_avg,by=c("film"))
+
+movie_rating$rating_error <- movie_rating$rating - movie_rating$avg_rating
+
+save(movie_rating, file = "movie_rating.RData")
+
+# Create another dplot
+
+# library(rCharts)
+# 
+# d2 <- dPlot(
+#         x = "review_count",
+#         y = "rating_error",
+#         groups = c("film", "website"),
+#         data = movie_rating,
+#         type = "bubble"
+# )
+# 
+# d2$xAxis( type = "addMeasureAxis" )
+# d2$yAxis( type = "addMeasureAxis")
+# d2$legend(
+#         x = 200,
+#         y = 10,
+#         width = 300,
+#         height = 200,
+#         horizontalAlign = "left"
+# )
+# 
+# d2$set(height = 800, width = 800)
+# 
+# d2
+
+
 
 ## Plot the rchart
 
