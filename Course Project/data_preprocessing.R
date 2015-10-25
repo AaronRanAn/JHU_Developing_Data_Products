@@ -20,6 +20,8 @@ names(long_melt) = c("film", "website", "rating")
 
 long_melt[,1:2] = apply(long_melt[,1:2], 2, function(x) iconv(x,to="utf-8"))
 
+save(long_melt, file = "long_melt.RData")
+
 ## Plot the rchart
 
 # library(rCharts)
