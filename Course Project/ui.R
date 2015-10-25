@@ -1,6 +1,8 @@
 # this is the course shiny project for build data product
 
 require(rCharts)
+require(markdown)
+require(rjson)
 
 library(shiny)
 
@@ -37,9 +39,9 @@ shinyUI(
                                     h4("Which Ratings To Trust?"),
                                     sliderInput("rating_error", 
                                                 "Select Rating Error Range:", 
-                                                min = -2.0,
-                                                max = 2.0,
-                                                value = c(-2.0, 2.0),
+                                                min = -2,
+                                                max = 2,
+                                                value = c(-2, 2),
                                                 step = 0.1
                                                 ),
                                     h6("* Rating Error = Rating - Avg Rating"),

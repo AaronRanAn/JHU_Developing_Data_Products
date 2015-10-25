@@ -2,11 +2,17 @@
 
 ####
 
-library(shiny) 
+library(shiny)
+require(rjson)
 
 require(rCharts)
 
  options(RCHART_WIDTH = 1000)
+ 
+ load("long_melt.RData")
+ 
+ 
+ load("movie_rating.RData")
  
 film <- sort(unique(long_melt$film))
 
